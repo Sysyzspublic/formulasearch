@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>物理公式查找器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      width: 80%;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .search-box {
+      display: block;
+      width: 50%;
+      margin: 20px auto;
+      padding: 10px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .formula-list {
+      margin-top: 20px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .formula-item {
+      padding: 10px;
+      background-color: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .formula-item:hover {
+      background-color: #e9e9e9;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>物理公式查找</h1>
+    <input type="text" id="search" class="search-box" placeholder="请输入关键字" oninput="searchFormula()">
+
+    <ul id="formula-list" class="formula-list">
+      <!-- 公式列表将在这里动态展示 -->
+    </ul>
+  </div>
+
+  <script src="formulas.js"></script>
+  <script>
+
+    function searchFormula() {
+      const query = document.getElementById('search').value.toLowerCase();
+      const filteredFormulas = formulas.filter(formula =>
+        formula.name.toLowerCase().includes(query) || formula.formula.includes(query)
+      );
+
+      displayFormulas(filteredFormulas);
+    }
+
+    function displayFormulas(formulasToDisplay) {
+      const formulaList = document.getElementById('formula-list');
+      formulaList.innerHTML = '';
+
+      if (formulasToDisplay.length === 0) {
+        formulaList.innerHTML = '<li>抱歉，在已有数据库没有找到匹配的公式，请您自行上网搜索。</li>';
+      } else {
+        formulasToDisplay.forEach(formula => {
+          const li = document.createElement('li');
+          li.className = 'formula-item';
+          li.innerHTML = `<strong>${formula.name}:</strong> ${formula.formula}`;
+          formulaList.appendChild(li);
+        });
+      }
+    }
+  </script>
+
+</body>
+
+</html>
